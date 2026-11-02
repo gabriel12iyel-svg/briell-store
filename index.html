@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,18 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#06180f">
 <title>Briell Store — Top Up Robux</title>
-
 <style>
 :root{
---bg:#04130c;--panel:#0b2116;--panel2:#102b1c;
---line:#1d4930;--lime:#b7ff35;--green:#22e878;
---text:#effff2;--muted:#9bb5a3;--gold:#ffd66b;
---danger:#ff7777;
+--bg:#04130c;--panel:#0b2116;--line:#1d4930;
+--lime:#b7ff35;--green:#22e878;--text:#effff2;
+--muted:#9bb5a3;--gold:#ffd66b;--danger:#ff7777
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
 body{
-margin:0;background:radial-gradient(ellipse at 50% -10%,#174c2d 0%,#071b10 42%,#030d08 100%);
+margin:0;background:radial-gradient(ellipse at 50% -10%,#174c2d,#071b10 42%,#030d08);
 color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;
 min-height:100vh;overflow-x:hidden
 }
@@ -26,7 +22,6 @@ button{cursor:pointer}
 #fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
 .particle{position:absolute;opacity:.25;animation:float linear infinite}
 @keyframes float{from{transform:translateY(110vh) rotate(0)}to{transform:translateY(-15vh) rotate(360deg)}}
-
 header,.app,nav{position:relative;z-index:1}
 .topbar{
 position:sticky;top:0;z-index:5;background:#06170fee;
@@ -36,70 +31,56 @@ padding:13px 16px;display:flex;align-items:center;justify-content:space-between
 .brand{font-weight:1000;letter-spacing:1px;font-style:italic;font-size:19px}
 .brand span{color:var(--lime)}
 .top-pill{border:1px solid #3c8c58;border-radius:99px;padding:8px 12px;color:var(--lime);font-size:11px;font-weight:900}
-
 .app{max-width:650px;margin:auto;padding:16px 14px 105px}
 .screen{display:none;animation:appear .25s ease}
 .screen.active{display:block}
 @keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
 .hero{
-position:relative;text-align:center;padding:34px 18px 28px;
-border:1px solid #28613c;border-radius:25px;
-background:linear-gradient(145deg,#123a22,#081b11 68%);
-box-shadow:0 12px 45px #0006,inset 0 0 35px #54ff8a0c;
-overflow:hidden
+text-align:center;padding:34px 18px 28px;border:1px solid #28613c;
+border-radius:25px;background:linear-gradient(145deg,#123a22,#081b11 68%);
+box-shadow:0 12px 45px #0006;overflow:hidden
 }
-.hero-mark{font-size:42px;filter:drop-shadow(0 0 15px #76ff9b)}
+.hero-mark{font-size:42px}
 .eyebrow{color:var(--lime);font-size:11px;font-weight:900;letter-spacing:3px}
 .hero h1{font-size:clamp(29px,8vw,43px);line-height:1.05;margin:12px 0 9px;font-weight:1000}
 .hero h1 span{color:var(--lime)}
 .hero p{color:#bdd4c3;font-size:13px;margin:0 auto 19px;max-width:380px}
-
 .section-title{font-size:16px;font-weight:950;margin:24px 3px 12px}
 .choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .choice{
 border:1px solid #2a6741;background:linear-gradient(145deg,#123922,#0a2014);
-border-radius:18px;padding:18px 14px;text-align:left;color:var(--text);
-min-height:150px;transition:.2s
+border-radius:18px;padding:18px 14px;text-align:left;color:var(--text);min-height:150px
 }
-.choice:active{transform:scale(.98)}
 .choice .ico{font-size:30px}
 .choice h3{font-size:15px;margin:12px 0 5px}
 .choice p{font-size:11px;color:var(--muted);line-height:1.5;margin:0}
 .choice .go{display:inline-block;margin-top:13px;color:var(--lime);font-size:11px;font-weight:900}
-
 .card{
 background:linear-gradient(145deg,#0d2518,#081910);
-border:1px solid var(--line);border-radius:19px;padding:17px;
-margin:12px 0;box-shadow:0 8px 25px #0002
+border:1px solid var(--line);border-radius:19px;padding:17px;margin:12px 0;
+box-shadow:0 8px 25px #0002
 }
 .card h2{font-size:17px;margin:0 0 6px}
 .sub{color:var(--muted);font-size:12px;line-height:1.5;margin:0 0 15px}
-
 label{display:block;font-size:11px;font-weight:900;margin:15px 0 7px;color:#d9f4df}
 input{
-width:100%;border:1px solid #285238;background:#04120b;
-color:#effff2;border-radius:11px;padding:13px 12px;font-size:14px;outline:none
+width:100%;border:1px solid #285238;background:#04120b;color:#effff2;
+border-radius:11px;padding:13px 12px;font-size:14px;outline:none
 }
 input:focus{border-color:var(--lime);box-shadow:0 0 0 3px #b7ff3515}
 input::placeholder{color:#718879}
 .hint{font-size:10px;color:var(--muted);margin-top:6px;line-height:1.5}
-
 .avatarbox{
 display:flex;align-items:center;gap:12px;margin-top:12px;padding:10px;
 border:1px solid #244a32;border-radius:13px;background:#06170f;min-height:82px
 }
-.avatarbox img{
-width:62px;height:62px;border-radius:13px;object-fit:cover;background:#173b25;
-display:none
-}
+.avatarbox img{width:62px;height:62px;border-radius:13px;object-fit:cover;background:#173b25;display:none}
 .avatarinfo{font-size:12px;overflow-wrap:anywhere}
 .avatarinfo small{display:block;color:var(--muted);margin-top:4px}
 .status{font-size:11px;color:var(--muted);margin-top:7px;min-height:15px}
 .status.error{color:var(--danger)}
 .status.ok{color:var(--lime)}
-
-.amounts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.amounts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
 .amount{
 border:1px solid #285039;border-radius:12px;background:#07180f;
 color:#eaffed;padding:12px 3px;font-weight:900;font-size:13px
@@ -107,12 +88,10 @@ color:#eaffed;padding:12px 3px;font-weight:900;font-size:13px
 .amount small{display:block;color:var(--lime);font-size:9px;margin-bottom:4px}
 .amount.active{background:var(--lime);color:#09200f;border-color:var(--lime)}
 .amount.active small{color:#23451b}
-
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .pricebox{border:1px solid #285039;border-radius:12px;padding:12px;background:#06170f}
 .pricebox small{display:block;color:var(--muted);font-size:10px}
 .pricebox strong{font-size:18px;color:var(--lime)}
-
 .methods{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
 .method{
 display:flex;align-items:center;gap:10px;border:1px solid #285039;
@@ -131,22 +110,18 @@ font-size:10px;font-weight:1000;color:white;background:#1874d1;flex-shrink:0
 .method:nth-child(7) .logo{background:#168c50}
 .method strong{font-size:12px}
 .method small{display:block;color:var(--muted);font-size:9px;margin-top:2px}
-
 .btn{
 width:100%;border:0;border-radius:12px;padding:15px 14px;
 font-size:13px;font-weight:1000;color:#06200f;
 background:linear-gradient(100deg,#b7ff35,#27ed79);
 box-shadow:0 6px 20px #25ef7930;margin-top:15px
 }
-.btn.secondary{
-background:#102b1b;color:#dfffe8;border:1px solid #2d6740;box-shadow:none
-}
+.btn.secondary{background:#102b1b;color:#dfffe8;border:1px solid #2d6740;box-shadow:none}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .back{
 background:transparent;border:1px solid #2b5238;color:#c5e6ce;
 padding:9px 13px;border-radius:10px;font-weight:800;font-size:11px;margin-bottom:10px
 }
-
 .notice{
 padding:12px;border-radius:12px;background:#292513;
 border:1px solid #65552a;color:#f4dc9a;font-size:11px;line-height:1.55;margin:12px 0
@@ -158,14 +133,12 @@ border-top:1px solid #21442e;padding-top:15px;margin-top:16px
 }
 .order-total small{display:block;color:var(--muted);font-size:10px}
 .order-total strong{color:var(--gold);font-size:23px}
-
 .empty{text-align:center;padding:35px 15px;color:var(--muted);font-size:12px}
 .order-row{
 border:1px solid #285039;background:#081a10;
 padding:13px;border-radius:12px;margin:9px 0;font-size:12px;overflow-wrap:anywhere
 }
 .order-row strong{color:var(--lime)}
-
 nav{
 position:fixed;bottom:0;left:0;right:0;z-index:8;
 display:flex;justify-content:center;background:#06160ff2;
@@ -180,7 +153,6 @@ padding:7px 4px 5px;font-size:10px;display:grid;justify-items:center;gap:3px
 .dock button .dicon{font-size:21px;filter:grayscale(1);opacity:.65}
 .dock button.active{color:var(--lime);font-weight:900}
 .dock button.active .dicon{filter:none;opacity:1}
-
 .modal{
 position:fixed;inset:0;z-index:20;background:#000b;display:none;
 align-items:flex-end;justify-content:center;padding:12px
@@ -192,18 +164,12 @@ background:#0a2115;border:1px solid #3a754c;border-radius:22px;padding:18px
 }
 .modalhead{display:flex;justify-content:space-between;align-items:center}
 .close{border:0;background:#183c26;color:white;border-radius:9px;padding:8px 12px;font-size:17px}
-
-@media(min-width:600px){
-.app{padding-top:22px}
-.modal{align-items:center}
-}
-@media(max-width:360px){
-.amounts{grid-template-columns:repeat(2,1fr)}
-.choice{padding:13px 10px}
-}
+.tutorial-item{padding:10px 0;border-bottom:1px solid #21442e}
+.tutorial-item:last-child{border:0}
+@media(min-width:600px){.app{padding-top:22px}.modal{align-items:center}}
+@media(max-width:360px){.amounts{grid-template-columns:repeat(2,1fr)}.choice{padding:13px 10px}}
 </style>
 </head>
-
 <body>
 <div id="fx"></div>
 
@@ -214,7 +180,6 @@ background:#0a2115;border:1px solid #3a754c;border-radius:22px;padding:18px
 
 <main class="app">
 
-<!-- BERANDA -->
 <section id="home" class="screen active">
  <div class="hero">
   <div class="hero-mark">💎</div>
@@ -223,60 +188,49 @@ background:#0a2115;border:1px solid #3a754c;border-radius:22px;padding:18px
   <p>Top up Robux dengan mudah, praktis, dan aman. Pilih metode pemesanan favoritmu!</p>
   <div class="notice green">⚡ Layanan pemesanan Briell Store. Konfirmasi pesanan melalui WhatsApp admin.</div>
  </div>
-
  <div class="section-title">Pilih Metode Top Up</div>
  <div class="choice-grid">
   <button class="choice" onclick="go('username')">
-   <div class="ico">👤</div>
-   <h3>Via Username</h3>
+   <div class="ico">👤</div><h3>Via Username</h3>
    <p>Top up menggunakan username Roblox kamu.</p>
    <span class="go">PILIH SEKARANG →</span>
   </button>
   <button class="choice" onclick="go('gamepass')">
-   <div class="ico">🎮</div>
-   <h3>Via Gamepass</h3>
+   <div class="ico">🎮</div><h3>Via Gamepass</h3>
    <p>Top up melalui link gamepass Roblox.</p>
    <span class="go">PILIH SEKARANG →</span>
   </button>
  </div>
-
  <div class="card">
   <h2>✨ Kenapa Briell Store?</h2>
-  <div class="tutorial-list">
-   <div class="tutorial-item"><strong>⚡ Proses praktis</strong><p>Isi data pesanan dan kirim konfirmasi langsung ke admin.</p></div>
-   <div class="tutorial-item"><strong>🔒 Data pesanan tercatat</strong><p>Riwayat pesanan tersimpan di browser perangkat ini.</p></div>
-   <div class="tutorial-item"><strong>💚 Tampilan mudah digunakan</strong><p>Desain dibuat nyaman untuk pengguna HP maupun desktop.</p></div>
-  </div>
+  <div class="tutorial-item"><strong>⚡ Proses praktis</strong><p>Isi data pesanan dan kirim konfirmasi langsung ke admin.</p></div>
+  <div class="tutorial-item"><strong>🔒 Data pesanan tercatat</strong><p>Riwayat pesanan tersimpan pada perangkat ini.</p></div>
+  <div class="tutorial-item"><strong>💚 Tampilan mudah digunakan</strong><p>Nyaman digunakan melalui HP maupun desktop.</p></div>
  </div>
 </section>
 
-<!-- VIA USERNAME -->
 <section id="username" class="screen">
  <button class="back" onclick="go('home')">← Kembali</button>
  <div class="card">
   <h2>👤 Top Up Via Username</h2>
   <p class="sub">Masukkan username Roblox. Avatar akan dicari otomatis.</p>
-
   <label>USERNAME ROBLOX</label>
   <input id="uName" placeholder="Contoh: Builderman" autocomplete="off" oninput="scheduleLookup('u')">
-
   <div class="avatarbox">
    <img id="uAvatar" alt="Avatar Roblox">
-   <div class="avatarinfo">
-    <b id="uDisplay">Preview Avatar Roblox</b>
-    <small id="uUsername">Avatar akan muncul setelah username ditemukan.</small>
-   </div>
+   <div class="avatarinfo"><b id="uDisplay">Preview Avatar Roblox</b><small id="uUsername">Avatar akan muncul setelah username ditemukan.</small></div>
   </div>
   <div id="uStatus" class="status">Masukkan username Roblox.</div>
 
   <label>EMAIL CUSTOMER</label>
   <input id="uEmail" type="email" placeholder="email@gmail.com">
-
   <label>NOMOR WHATSAPP CUSTOMER</label>
   <input id="uPhone" type="tel" placeholder="08xxxxxxxxxx">
 
   <label>PILIH JUMLAH ROBUX</label>
   <div class="amounts" id="uAmounts"></div>
+  <label>ATAU CUSTOM ROBUX (1–100.000)</label>
+  <input id="uCustom" type="number" min="1" max="100000" placeholder="Masukkan jumlah Robux" oninput="setCustom('u')">
 
   <div class="two" style="margin-top:12px">
    <div class="pricebox"><small>Jumlah Robux</small><strong id="uSelected">0 R$</strong></div>
@@ -289,22 +243,16 @@ background:#0a2115;border:1px solid #3a754c;border-radius:22px;padding:18px
  </div>
 </section>
 
-<!-- VIA GAMEPASS -->
 <section id="gamepass" class="screen">
  <button class="back" onclick="go('home')">← Kembali</button>
  <div class="card">
   <h2>🎮 Top Up Via Gamepass</h2>
   <p class="sub">Masukkan username Roblox pemilik gamepass.</p>
-
   <label>USERNAME ROBLOX</label>
   <input id="gName" placeholder="Masukkan username Roblox" autocomplete="off" oninput="scheduleLookup('g')">
-
   <div class="avatarbox">
    <img id="gAvatar" alt="Avatar Roblox">
-   <div class="avatarinfo">
-    <b id="gDisplay">Preview Avatar Roblox</b>
-    <small id="gUsername">Avatar akan muncul setelah username ditemukan.</small>
-   </div>
+   <div class="avatarinfo"><b id="gDisplay">Preview Avatar Roblox</b><small id="gUsername">Avatar akan muncul setelah username ditemukan.</small></div>
   </div>
   <div id="gStatus" class="status">Masukkan username Roblox.</div>
 
@@ -317,16 +265,21 @@ background:#0a2115;border:1px solid #3a754c;border-radius:22px;padding:18px
 
   <label>EMAIL CUSTOMER</label>
   <input id="gEmail" type="email" placeholder="email@gmail.com">
-
   <label>NOMOR WHATSAPP CUSTOMER</label>
   <input id="gPhone" type="tel" placeholder="08xxxxxxxxxx">
 
   <label>PILIH JUMLAH ROBUX</label>
   <div class="amounts" id="gAmounts"></div>
+  <label>ATAU CUSTOM ROBUX (1–100.000)</label>
+  <input id="gCustom" type="number" min="1" max="100000" placeholder="Masukkan jumlah Robux" oninput="setCustom('g')">
+  <div class="hint">Perkiraan harga gamepass yang perlu dipasang: jumlah Robux ÷ 0,7 (dibulatkan ke atas).</div>
 
   <div class="two" style="margin-top:12px">
    <div class="pricebox"><small>Jumlah Robux</small><strong id="gSelected">0 R$</strong></div>
    <div class="pricebox"><small>Total Harga</small><strong id="gPrice">Rp0</strong></div>
+  </div>
+  <div class="pricebox" style="margin-top:10px">
+   <small>Perkiraan Harga Gamepass</small><strong id="gPassPrice">0 R$</strong>
   </div>
 
   <label>METODE PEMBAYARAN</label>
@@ -335,11 +288,9 @@ background:#0a2115;border:1px solid #3a754c;border-radius:22px;padding:18px
  </div>
 </section>
 
-<!-- RIWAYAT -->
 <section id="orders" class="screen">
  <div class="hero">
-  <div class="hero-mark">📦</div>
-  <div class="eyebrow">BRIELL STORE</div>
+  <div class="hero-mark">📦</div><div class="eyebrow">BRIELL STORE</div>
   <h1>RIWAYAT <span>PESANAN</span></h1>
   <p>Lihat pesanan yang tersimpan pada perangkat ini.</p>
  </div>
@@ -349,7 +300,6 @@ background:#0a2115;border:1px solid #3a754c;border-radius:22px;padding:18px
   <button class="btn secondary" onclick="clearOrders()">HAPUS RIWAYAT PESANAN</button>
  </div>
 </section>
-
 </main>
 
 <nav>
@@ -360,7 +310,6 @@ background:#0a2115;border:1px solid #3a754c;border-radius:22px;padding:18px
  </div>
 </nav>
 
-<!-- MODAL PESANAN -->
 <div class="modal" id="orderModal">
  <div class="modalbox">
   <div class="modalhead">
@@ -376,18 +325,14 @@ background:#0a2115;border:1px solid #3a754c;border-radius:22px;padding:18px
 </div>
 
 <script>
-/* ======================================
-   PENGATURAN BRIELL STORE
-====================================== */
+/* PENGATURAN */
+const PRICES = {
+ u: 180,
+ g: 170
+};
 
-// UBAH HARGA DI SINI.
-// Contoh: 100 berarti Rp100 untuk setiap 1 Robux.
-const PRICE = 100;
-
-// Nomor WhatsApp admin Briell Store.
 const ADMIN_WA = '6285881993918';
-
-const AMOUNTS = [50,100,150,200,250,300,400,500];
+const AMOUNTS = [50,100,200,300,500,1000];
 
 const METHODS = [
  {name:'DANA',logo:'DANA'},
@@ -404,31 +349,21 @@ const state = {
  g:{amount:0,method:''}
 };
 
-let lastOrder = null;
-let lookupTimers = {u:null,g:null};
-let lookupRequest = {u:0,g:0};
-let foundUsers = {u:null,g:null};
-
-/* ======================================
-   NAVIGASI
-====================================== */
+let lastOrder=null;
+let lookupTimers={u:null,g:null};
+let lookupRequest={u:0,g:0};
+let foundUsers={u:null,g:null};
 
 function go(id){
  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
  const target=document.getElementById(id);
  if(target)target.classList.add('active');
-
  document.querySelectorAll('.dock button').forEach(b=>b.classList.remove('active'));
  const nav=document.getElementById('nav-'+id);
  if(nav)nav.classList.add('active');
-
  window.scrollTo({top:0,behavior:'smooth'});
  if(id==='orders')renderOrders();
 }
-
-/* ======================================
-   FORMAT HARGA
-====================================== */
 
 function rupiah(value){
  return new Intl.NumberFormat('id-ID',{
@@ -436,79 +371,74 @@ function rupiah(value){
  }).format(value);
 }
 
-/* ======================================
-   PILIH NOMINAL
-====================================== */
-
+/* NOMINAL */
 function renderAmounts(prefix){
  const el=document.getElementById(prefix+'Amounts');
  el.innerHTML='';
-
  AMOUNTS.forEach(amount=>{
   const button=document.createElement('button');
   button.type='button';
   button.className='amount';
   button.innerHTML='<small>ROBUX</small>'+amount;
-
   button.onclick=()=>{
    state[prefix].amount=amount;
+   document.getElementById(prefix+'Custom').value='';
    el.querySelectorAll('.amount').forEach(b=>b.classList.remove('active'));
    button.classList.add('active');
    updatePrice(prefix);
   };
-
   el.appendChild(button);
  });
+}
+
+function setCustom(prefix){
+ const input=document.getElementById(prefix+'Custom');
+ const amount=Number(input.value);
+ state[prefix].amount=Number.isInteger(amount)&&amount>=1&&amount<=100000?amount:0;
+ document.querySelectorAll('#'+prefix+'Amounts .amount').forEach(b=>b.classList.remove('active'));
+ updatePrice(prefix);
 }
 
 function updatePrice(prefix){
  const amount=state[prefix].amount;
  document.getElementById(prefix+'Selected').textContent=amount+' R$';
- document.getElementById(prefix+'Price').textContent=rupiah(amount*PRICE);
+ document.getElementById(prefix+'Price').textContent=rupiah(amount*PRICES[prefix]);
+ if(prefix==='g'){
+  document.getElementById('gPassPrice').textContent=
+   (amount?Math.ceil(amount/0.7):0)+' R$';
+ }
 }
 
-/* ======================================
-   METODE PEMBAYARAN
-====================================== */
-
+/* METODE PEMBAYARAN */
 function renderMethods(prefix){
  const el=document.getElementById(prefix+'Methods');
  el.innerHTML='';
-
  METHODS.forEach(method=>{
   const button=document.createElement('button');
   button.type='button';
   button.className='method';
   button.innerHTML=`
    <span class="logo">${method.logo}</span>
-   <span><strong>${method.name}</strong><small>Pembayaran</small></span>
-  `;
-
+   <span><strong>${method.name}</strong><small>Pembayaran</small></span>`;
   button.onclick=()=>{
    state[prefix].method=method.name;
    el.querySelectorAll('.method').forEach(b=>b.classList.remove('active'));
    button.classList.add('active');
   };
-
   el.appendChild(button);
  });
 }
 
-/* ======================================
-   LOOKUP USERNAME ROBLOX
-====================================== */
-
+/* LOOKUP ROBLOX */
 function scheduleLookup(prefix){
  clearTimeout(lookupTimers[prefix]);
-
  const name=document.getElementById(prefix+'Name').value.trim();
  const status=document.getElementById(prefix+'Status');
  const avatar=document.getElementById(prefix+'Avatar');
-
  lookupRequest[prefix]++;
  foundUsers[prefix]=null;
-
  avatar.style.display='none';
+ avatar.removeAttribute('src');
  document.getElementById(prefix+'Display').textContent='Preview Avatar Roblox';
  document.getElementById(prefix+'Username').textContent='Avatar akan muncul setelah username ditemukan.';
 
@@ -517,153 +447,106 @@ function scheduleLookup(prefix){
   status.textContent='Masukkan username Roblox.';
   return;
  }
-
  status.className='status';
  status.textContent='Mencari akun Roblox...';
-
  const request=lookupRequest[prefix];
-
- lookupTimers[prefix]=setTimeout(()=>{
-  lookupUser(name,prefix,request);
- },650);
+ lookupTimers[prefix]=setTimeout(()=>lookupUser(name,prefix,request),650);
 }
-
 
 async function lookupUser(name,prefix,request){
  const status=document.getElementById(prefix+'Status');
-
  try{
   const response=await fetch(
    '/.netlify/functions/roblox-user?username='+encodeURIComponent(name)
   );
-
   const data=await response.json();
-
   if(request!==lookupRequest[prefix])return;
+  if(!response.ok)throw Error(data.error||'Username Roblox tidak ditemukan.');
 
-  if(!response.ok){
-   throw Error(data.error||'Username Roblox tidak ditemukan.');
-  }
-
-  if(!data.avatarUrl||!data.id){
-   throw Error('Data avatar tidak tersedia.');
-  }
+  const userId=data.userId||data.id;
+  if(!data.avatarUrl||!userId)throw Error('Data avatar tidak tersedia.');
 
   const img=document.getElementById(prefix+'Avatar');
-
   img.onload=()=>{
-   if(request===lookupRequest[prefix]){
-    img.style.display='block';
-   }
+   if(request===lookupRequest[prefix])img.style.display='block';
   };
-
   img.onerror=()=>{
    img.style.display='none';
    status.className='status error';
    status.textContent='⚠ Foto avatar gagal dimuat.';
   };
-
   img.src=data.avatarUrl;
 
-  document.getElementById(prefix+'Display').textContent=
-   data.displayName||data.username;
-
-  document.getElementById(prefix+'Username').textContent=
-   '@'+data.username+' • ID: '+data.id;
+  const username=data.username||name;
+  const displayName=data.displayName||username;
+  document.getElementById(prefix+'Display').textContent=displayName;
+  document.getElementById(prefix+'Username').textContent='@'+username+' • ID: '+userId;
 
   foundUsers[prefix]={
-   id:data.id,
-   name:data.username,
-   displayName:data.displayName
+   id:userId,
+   name:username,
+   displayName
   };
-
   status.className='status ok';
   status.textContent='✓ Akun Roblox berhasil ditemukan!';
-
  }catch(error){
   if(request!==lookupRequest[prefix])return;
-
   foundUsers[prefix]=null;
-
-  const img=document.getElementById(prefix+'Avatar');
-  img.style.display='none';
-
+  document.getElementById(prefix+'Avatar').style.display='none';
   status.className='status error';
   status.textContent='⚠ '+error.message;
  }
 }
 
-
-/* ======================================
-   PENCARIAN GAMEPASS
-====================================== */
-
+/* PENCARIAN GAMEPASS */
 async function findGamepasses(){
  const name=document.getElementById('gName').value.trim();
  const out=document.getElementById('gamepassResults');
-
  if(!name){
   out.className='status error';
   out.textContent='Masukkan username Roblox terlebih dahulu.';
   return;
  }
-
  out.className='status';
  out.textContent='Sedang mencari gamepass publik...';
 
  try{
   let user=foundUsers.g;
-
   if(!user||user.name.toLowerCase()!==name.toLowerCase()){
    const response=await fetch('https://users.roblox.com/v1/usernames/users',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({usernames:[name]})
+    body:JSON.stringify({usernames:[name],excludeBannedUsers:true})
    });
-
    if(!response.ok)throw Error('Tidak dapat menghubungi Roblox.');
-
    const result=await response.json();
-   user=result.data?.[0];
+   const found=result.data?.[0];
+   if(!found)throw Error('Username tidak ditemukan.');
+   user={id:found.id,name:found.name};
   }
-
-  if(!user)throw Error('Username tidak ditemukan.');
 
   const gamesResponse=await fetch(
    `https://games.roblox.com/v2/users/${user.id}/games?accessFilter=Public&sortOrder=Asc&limit=50`
   );
-
   if(!gamesResponse.ok)throw Error('Daftar experience tidak dapat diakses.');
-
   const gamesData=await gamesResponse.json();
   const games=(gamesData.data||[]).slice(0,10);
-
   if(!games.length)throw Error('Experience publik tidak ditemukan.');
 
   let passes=[];
-
   for(const game of games){
    try{
-    const passResponse=await fetch(
+    const response=await fetch(
      `https://games.roblox.com/v1/games/${game.id}/game-passes?limit=100&sortOrder=Asc`
     );
-
-    if(passResponse.ok){
-     const passData=await passResponse.json();
-
-     (passData.data||[]).forEach(pass=>{
-      passes.push({
-       ...pass,
-       gameName:game.name
-      });
-     });
+    if(response.ok){
+     const result=await response.json();
+     (result.data||[]).forEach(pass=>passes.push({...pass,gameName:game.name}));
     }
    }catch(e){}
   }
 
-  if(!passes.length){
-   throw Error('Gamepass publik tidak ditemukan. Kamu bisa memasukkan link secara manual.');
-  }
+  if(!passes.length)throw Error('Gamepass publik tidak ditemukan. Silakan masukkan link secara manual.');
 
   out.className='status ok';
   out.innerHTML='<b>Gamepass ditemukan — pilih salah satu:</b>';
@@ -671,27 +554,19 @@ async function findGamepasses(){
   passes.slice(0,12).forEach(pass=>{
    const row=document.createElement('div');
    row.className='order-row';
-
    const title=document.createElement('strong');
    title.textContent=pass.name||'Gamepass';
-
    const detail=document.createElement('div');
    detail.textContent=(pass.gameName||'Experience')+' • '+(pass.price??'Harga tidak tersedia')+' Robux';
-
    const button=document.createElement('button');
    button.className='btn secondary';
    button.style.marginTop='8px';
    button.style.padding='9px';
    button.textContent='PILIH GAMEPASS INI';
-
-   button.onclick=()=>{
-    selectPass(pass.id,pass.name||'Gamepass');
-   };
-
+   button.onclick=()=>selectPass(pass.id,pass.name||'Gamepass');
    row.append(title,detail,button);
    out.appendChild(row);
   });
-
  }catch(error){
   out.className='status error';
   out.textContent='⚠ '+error.message;
@@ -701,64 +576,55 @@ async function findGamepasses(){
 function selectPass(id,name){
  const url='https://www.roblox.com/game-pass/'+id+'/'+
  encodeURIComponent(name.replaceAll(' ','-'));
-
  document.getElementById('gPass').value=url;
-
  const out=document.getElementById('gamepassResults');
  out.className='status ok';
  out.textContent='✓ Gamepass dipilih. Lanjutkan isi data pesanan.';
 }
 
-/* ======================================
-   PEMBUATAN PESANAN
-====================================== */
-
+/* PEMBUATAN PESANAN */
 async function createOrder(prefix){
  const username=document.getElementById(prefix+'Name').value.trim();
  const email=document.getElementById(prefix+'Email').value.trim();
  const phone=document.getElementById(prefix+'Phone').value.trim();
  const amount=state[prefix].amount;
  const method=state[prefix].method;
+ const user=foundUsers[prefix];
 
  if(!username||!email||!phone){
   alert('Lengkapi semua data pesanan.');
   return;
  }
-
  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
   alert('Format email salah.');
   return;
  }
-
  if(!/^[+0-9()\-\s]{8,18}$/.test(phone)){
   alert('Nomor WhatsApp salah.');
   return;
  }
-
- if(!foundUsers[prefix] ||
- foundUsers[prefix].name.toLowerCase()!==username.toLowerCase()){
-  alert('Pastikan username Roblox ditemukan.');
+ if(!user||user.name.toLowerCase()!==username.toLowerCase()){
+  alert('Pastikan username Roblox ditemukan terlebih dahulu.');
   return;
  }
-
- if(!AMOUNTS.includes(amount)){
-  alert('Pilih jumlah Robux.');
+ if(!Number.isInteger(amount)||amount<1||amount>100000){
+  alert('Pilih jumlah Robux yang valid (1–100.000).');
   return;
  }
-
  if(!method){
   alert('Pilih metode pembayaran.');
   return;
  }
 
  const pass=prefix==='g'?document.getElementById('gPass').value.trim():'';
-
  if(prefix==='g'&&!/roblox\.com\/game-pass\/\d+/i.test(pass)){
   alert('Link gamepass belum valid.');
   return;
  }
 
- const button=document.querySelector(`#${prefix==='u'?'username':'gamepass'} .btn:not(.secondary)`);
+ const button=document.querySelector(
+  `#${prefix==='u'?'username':'gamepass'} .btn:not(.secondary)`
+ );
  if(button)button.disabled=true;
 
  try{
@@ -767,9 +633,9 @@ async function createOrder(prefix){
    headers:{'Content-Type':'application/json'},
    body:JSON.stringify({
     type:prefix==='u'?'Via Username':'Via Gamepass',
-    username,
-    displayName:foundUsers[prefix].displayName||username,
-    userId:foundUsers[prefix].id,
+    username:user.name,
+    displayName:user.displayName||user.name,
+    userId:user.id,
     email,
     whatsapp:phone,
     robux:amount,
@@ -779,21 +645,18 @@ async function createOrder(prefix){
   });
 
   const result=await response.json();
-
-  if(!response.ok)throw Error(result.message||'Pesanan gagal disimpan.');
+  if(!response.ok)throw Error(result.message||result.error||'Pesanan gagal disimpan.');
+  if(!result.orderId)throw Error('Server tidak mengirim ID pesanan.');
 
   lastOrder={
    id:result.orderId,
    type:prefix==='u'?'Via Username':'Via Gamepass',
-   username,
-   displayName:foundUsers[prefix].displayName||username,
-   userId:foundUsers[prefix].id,
-   email,
-   phone,
-   amount,
-   price:amount*PRICE,
-   method,
-   pass,
+   username:user.name,
+   displayName:user.displayName||user.name,
+   userId:user.id,
+   email,phone,amount,
+   price:amount*PRICES[prefix],
+   method,pass,
    date:new Date().toLocaleString('id-ID'),
    status:'pending'
   };
@@ -806,7 +669,7 @@ async function createOrder(prefix){
    <div class="order-row">
     ID Pesanan: <strong>${escapeHtml(lastOrder.id)}</strong><br>
     Metode: ${escapeHtml(lastOrder.type)}<br>
-    Username: @${escapeHtml(username)}<br>
+    Username: @${escapeHtml(user.name)}<br>
     Display Name: ${escapeHtml(lastOrder.displayName)}<br>
     Jumlah: ${amount} Robux<br>
     Pembayaran: ${escapeHtml(method)}<br>
@@ -815,31 +678,22 @@ async function createOrder(prefix){
      <div><small>TOTAL PEMBAYARAN</small></div>
      <strong>${rupiah(lastOrder.price)}</strong>
     </div>
-   </div>
-  `;
-
+   </div>`;
   document.getElementById('orderModal').classList.add('show');
   renderOrders();
-
  }catch(error){
   alert(error.message);
  }finally{
   if(button)button.disabled=false;
  }
- }
+}
 
-/* ======================================
-   WHATSAPP ADMIN
-====================================== */
-
+/* WHATSAPP */
 function sendWhatsApp(){
  if(!lastOrder)return;
-
  const o=lastOrder;
-
  const message=[
-  'PESANAN BARU BRIELL STORE',
-  '',
+  'PESANAN BARU BRIELL STORE','',
   'ID: '+o.id,
   'Metode: '+o.type,
   'Username: '+o.username,
@@ -861,39 +715,30 @@ function sendWhatsApp(){
  );
 }
 
-/* ======================================
-   RIWAYAT PESANAN
-====================================== */
-
+/* RIWAYAT */
 function renderOrders(){
  let arr=[];
-
  try{
   arr=JSON.parse(localStorage.getItem('briellOrders')||'[]');
+  if(!Array.isArray(arr))arr=[];
  }catch(e){arr=[]}
 
  const el=document.getElementById('orderList');
-
  if(!arr.length){
   el.className='empty';
   el.textContent='Belum ada pesanan.';
   return;
  }
-
  el.className='';
  el.innerHTML='';
-
  arr.forEach(order=>{
   const row=document.createElement('div');
   row.className='order-row';
-
   row.innerHTML=`
    <strong>${escapeHtml(order.id)}</strong> • ${escapeHtml(order.date)}<br>
    ${escapeHtml(order.type)} — @${escapeHtml(order.username)}<br>
    ${order.amount} Robux • ${rupiah(order.price)}<br>
-   <small>${escapeHtml(order.method)} • Status: ${escapeHtml(order.status||'Menunggu konfirmasi admin')}</small>
-  `;
-
+   <small>${escapeHtml(order.method)} • Status: ${escapeHtml(order.status||'Menunggu konfirmasi admin')}</small>`;
   el.appendChild(row);
  });
 }
@@ -909,59 +754,39 @@ function closeModal(){
  go('orders');
 }
 
-/* ======================================
-   KEAMANAN TEKS
-====================================== */
-
 function escapeHtml(value){
  return String(value).replace(/[&<>"']/g,char=>({
-  '&':'&amp;',
-  '<':'&lt;',
-  '>':'&gt;',
-  '"':'&quot;',
-  "'":'&#39;'
+  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
  }[char]));
 }
 
-/* ======================================
-   EFEK PARTIKEL
-====================================== */
-
+/* PARTIKEL */
 function setupParticles(){
  const fx=document.getElementById('fx');
-
  for(let i=0;i<25;i++){
   const particle=document.createElement('div');
   particle.className='particle';
   particle.textContent=['✦','✧','·','✳'][i%4];
-
   particle.style.left=Math.random()*100+'%';
   particle.style.animationDuration=(8+Math.random()*15)+'s';
   particle.style.animationDelay=(-Math.random()*20)+'s';
   particle.style.fontSize=(10+Math.random()*15)+'px';
   particle.style.color=i%2?'#b7ff35':'#5affb1';
-
   fx.appendChild(particle);
  }
 }
 
-/* ======================================
-   INISIALISASI
-====================================== */
-
+/* INISIALISASI */
 function setup(){
  ['u','g'].forEach(prefix=>{
   renderAmounts(prefix);
   renderMethods(prefix);
   updatePrice(prefix);
  });
-
  setupParticles();
  renderOrders();
 }
-
 setup();
 </script>
-
 </body>
 </html>
