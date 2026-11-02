@@ -713,98 +713,120 @@ function selectPass(id,name){
    PEMBUATAN PESANAN
 ====================================== */
 
-function createOrder(prefix){
+async function createOrder(prefix){
  const username=document.getElementById(prefix+'Name').value.trim();
  const email=document.getElementById(prefix+'Email').value.trim();
  const phone=document.getElementById(prefix+'Phone').value.trim();
-
  const amount=state[prefix].amount;
  const method=state[prefix].method;
 
  if(!username||!email||!phone){
-  alert('Lengkapi username Roblox, email, dan nomor WhatsApp.');
+  alert('Lengkapi semua data pesanan.');
   return;
  }
 
  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-  alert('Format email belum benar.');
+  alert('Format email salah.');
   return;
  }
 
  if(!/^[+0-9()\-\s]{8,18}$/.test(phone)){
-  alert('Nomor WhatsApp belum benar.');
+  alert('Nomor WhatsApp salah.');
   return;
  }
 
- if(!foundUsers[prefix]||
+ if(!foundUsers[prefix] ||
  foundUsers[prefix].name.toLowerCase()!==username.toLowerCase()){
-  alert('Pastikan username Roblox berhasil ditemukan terlebih dahulu.');
+  alert('Pastikan username Roblox ditemukan.');
   return;
  }
 
- if(amount<50||amount>500){
-  alert('Pilih jumlah Robux 50 sampai 500.');
+ if(!AMOUNTS.includes(amount)){
+  alert('Pilih jumlah Robux.');
   return;
  }
 
  if(!method){
-  alert('Pilih metode pembayaran terlebih dahulu.');
+  alert('Pilih metode pembayaran.');
   return;
  }
 
- const pass=prefix==='g'?
- document.getElementById('gPass').value.trim():'';
-
- if(prefix==='g'&&!pass){
-  alert('Masukkan atau pilih link gamepass terlebih dahulu.');
-  return;
- }
+ const pass=prefix==='g'?document.getElementById('gPass').value.trim():'';
 
  if(prefix==='g'&&!/roblox\.com\/game-pass\/\d+/i.test(pass)){
-  alert('Link gamepass Roblox belum valid.');
+  alert('Link gamepass belum valid.');
   return;
  }
 
- lastOrder={
-  id:'BRL'+Date.now().toString().slice(-8),
-  type:prefix==='u'?'Via Username':'Via Gamepass',
-  username,
-  displayName:foundUsers[prefix].displayName||username,
-  userId:foundUsers[prefix].id,
-  email,
-  phone,
-  amount,
-  price:amount*PRICE,
-  method,
-  pass,
-  date:new Date().toLocaleString('id-ID'),
-  status:'Menunggu konfirmasi admin'
- };
+ const button=document.querySelector(`#${prefix==='u'?'username':'gamepass'} .btn:not(.secondary)`);
+ if(button)button.disabled=true;
 
- let orders=JSON.parse(localStorage.getItem('briellOrders')||'[]');
+ try{
+  const response=await fetch('/.netlify/functions/orders',{
+   method:'POST',
+   headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({
+    type:prefix==='u'?'Via Username':'Via Gamepass',
+    username,
+    displayName:foundUsers[prefix].displayName||username,
+    userId:foundUsers[prefix].id,
+    email,
+    whatsapp:phone,
+    robux:amount,
+    paymentMethod:method,
+    gamepass:pass
+   })
+  });
 
- orders.unshift(lastOrder);
- localStorage.setItem('briellOrders',JSON.stringify(orders));
+  const result=await response.json();
 
- document.getElementById('modalDetails').innerHTML=`
-  <div class="order-row">
-   ID Pesanan: <strong>${lastOrder.id}</strong><br>
-   Metode: ${lastOrder.type}<br>
-   Username: @${escapeHtml(username)}<br>
-   Display Name: ${escapeHtml(lastOrder.displayName)}<br>
-   Jumlah: ${amount} Robux<br>
-   Pembayaran: ${escapeHtml(method)}<br>
-   Email: ${escapeHtml(email)}<br>
-   <div class="order-total">
-    <div><small>TOTAL PEMBAYARAN</small></div>
-    <strong>${rupiah(lastOrder.price)}</strong>
+  if(!response.ok)throw Error(result.message||'Pesanan gagal disimpan.');
+
+  lastOrder={
+   id:result.orderId,
+   type:prefix==='u'?'Via Username':'Via Gamepass',
+   username,
+   displayName:foundUsers[prefix].displayName||username,
+   userId:foundUsers[prefix].id,
+   email,
+   phone,
+   amount,
+   price:amount*PRICE,
+   method,
+   pass,
+   date:new Date().toLocaleString('id-ID'),
+   status:'pending'
+  };
+
+  let orders=JSON.parse(localStorage.getItem('briellOrders')||'[]');
+  orders.unshift(lastOrder);
+  localStorage.setItem('briellOrders',JSON.stringify(orders));
+
+  document.getElementById('modalDetails').innerHTML=`
+   <div class="order-row">
+    ID Pesanan: <strong>${escapeHtml(lastOrder.id)}</strong><br>
+    Metode: ${escapeHtml(lastOrder.type)}<br>
+    Username: @${escapeHtml(username)}<br>
+    Display Name: ${escapeHtml(lastOrder.displayName)}<br>
+    Jumlah: ${amount} Robux<br>
+    Pembayaran: ${escapeHtml(method)}<br>
+    Email: ${escapeHtml(email)}<br>
+    <div class="order-total">
+     <div><small>TOTAL PEMBAYARAN</small></div>
+     <strong>${rupiah(lastOrder.price)}</strong>
+    </div>
    </div>
-  </div>
- `;
+  `;
 
- document.getElementById('orderModal').classList.add('show');
- renderOrders();
-}
+  document.getElementById('orderModal').classList.add('show');
+  renderOrders();
+
+ }catch(error){
+  alert(error.message);
+ }finally{
+  if(button)button.disabled=false;
+ }
+ }
 
 /* ======================================
    WHATSAPP ADMIN
