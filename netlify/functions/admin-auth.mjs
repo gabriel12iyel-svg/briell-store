@@ -1,3 +1,30 @@
+function base64url(data) {
+  return btoa(data)
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+}
+
+async function sign(value, secret) {
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+
+  const signature = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    new TextEncoder().encode(value)
+  );
+
+  return base64url(
+    String.fromCharCode(...new Uint8Array(signature))
+  );
+}
+
 export default async (req) => {
   if (req.method !== "POST") {
     return new Response("Method not allowed", { status: 405 });
@@ -5,23 +32,33 @@ export default async (req) => {
 
   try {
     const { password } = await req.json();
-    const secret = Netlify.env.get("ADMIN_PASSWORD");
+    const adminPassword = Netlify.env.get("ADMIN_PASSWORD");
+    const secret = Netlify.env.get("ADMIN_SECRET");
 
-    if (!secret || password !== secret) {
+    if (!adminPassword || !secret) {
+      throw new Error("Konfigurasi admin belum lengkap");
+    }
+
+    if (password !== adminPassword) {
       return Response.json(
-        { message: "Password admin salah." },
+        { message: "Password salah." },
         { status: 401 }
       );
     }
 
-    return Response.json(
-      { message: "Password benar." },
-      { status: 200 }
-    );
+    const payload = base64url(JSON.stringify({
+      exp: Date.now() + 8 * 60 * 60 * 1000
+    }));
+
+    const signature = await sign(payload, secret);
+
+    return Response.json({
+      token: payload + "." + signature
+    });
   } catch {
     return Response.json(
-      { message: "Terjadi kesalahan." },
-      { status: 400 }
+      { message: "Login gagal. Periksa konfigurasi admin." },
+      { status: 500 }
     );
   }
 };
