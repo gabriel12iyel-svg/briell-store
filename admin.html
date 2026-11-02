@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#06180f">
+<title>Admin Panel - Briell Store</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ padding:20px;
+ background:#06180f;
+ color:#eaffef;
+ font-family:Arial,sans-serif;
+}
+.container{max-width:850px;margin:auto}
+h1{color:#39f477;margin-bottom:5px}
+.subtitle{color:#9ab8a3;margin-bottom:25px}
+.card{
+ background:#0b2116;
+ border:1px solid #1d4930;
+ border-radius:15px;
+ padding:20px;
+ margin-bottom:18px;
+}
+h2{font-size:18px;margin-top:0}
+label{display:block;margin:14px 0 7px;color:#b9d8c2}
+input,select{
+ width:100%;
+ padding:13px;
+ border-radius:9px;
+ border:1px solid #28583a;
+ background:#06180f;
+ color:white;
+ font-size:15px;
+}
+button{
+ border:0;
+ border-radius:9px;
+ padding:13px 17px;
+ background:#39f477;
+ color:#062010;
+ font-weight:bold;
+ cursor:pointer;
+ margin-top:15px;
+}
+button.secondary{background:#183c27;color:white}
+.status{color:#39f477;margin-top:12px}
+.small{font-size:12px;color:#8eaa98}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>BRIELL STORE</h1>
+<p class="subtitle">Admin Dashboard · Kelola toko Robux</p>
+
+<div class="card" id="login">
+<h2>Login Admin</h2>
+<label>Password Admin</label>
+<input type="password" id="password" placeholder="Masukkan password admin">
+<button onclick="loginAdmin()">Masuk Admin</button>
+<p id="loginStatus" class="status"></p>
+</div>
+
+<div id="dashboard" hidden>
+
+<div class="card">
+<h2>Pengaturan Harga Robux</h2>
+<label>Harga per 100 Robux (Rp)</label>
+<input type="number" id="price" min="1" placeholder="18000">
+
+<button onclick="saveSettings()">Simpan Pengaturan</button>
+<p class="small">Pengaturan ini disiapkan untuk dihubungkan ke sistem website utama.</p>
+</div>
+
+<div class="card">
+<h2>Pengaturan Tampilan</h2>
+<label>Warna utama website</label>
+<select id="theme">
+<option value="green">Green Dark</option>
+<option value="blue">Blue Dark</option>
+<option value="purple">Purple Dark</option>
+</select>
+<label>Nama toko</label>
+<input id="storeName" value="Briell Store">
+<button onclick="saveSettings()">Simpan Tampilan</button>
+</div>
+
+<div class="card">
+<h2>Status Toko</h2>
+<label>Status operasional</label>
+<select id="storeStatus">
+<option value="open">Buka</option>
+<option value="closed">Tutup</option>
+</select>
+<button onclick="saveSettings()">Simpan Status</button>
+</div>
+
+<div class="card">
+<h2>Banner Toko</h2>
+<label>URL gambar banner</label>
+<input id="banner" placeholder="https://contoh.com/banner.jpg">
+<button onclick="saveSettings()">Simpan Banner</button>
+</div>
+
+<div class="card">
+<h2>Keluar</h2>
+<button class="secondary" onclick="logout()">Logout Admin</button>
+</div>
+
+<p id="saveStatus" class="status"></p>
+</div>
+
+</div>
+
+<script>
+let adminToken = "";
+
+async function loginAdmin(){
+ const password=document.getElementById("password").value;
+ const status=document.getElementById("loginStatus");
+
+ if(!password){
+  status.textContent="Masukkan password terlebih dahulu.";
+  return;
+ }
+
+ try{
+  const response=await fetch("/.netlify/functions/admin-auth",{
+   method:"POST",
+   headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({password})
+  });
+
+  const result=await response.json();
+
+  if(!response.ok)throw Error(result.message||"Login gagal");
+
+  adminToken=result.token;
+  document.getElementById("login").hidden=true;
+  document.getElementById("dashboard").hidden=false;
+  loadSettings();
+ }catch(error){
+  status.textContent=error.message;
+ }
+}
+
+async function loadSettings(){
+ try{
+  const response=await fetch("/.netlify/functions/admin-settings",{
+   headers:{"Authorization":"Bearer "+adminToken}
+  });
+  if(!response.ok)throw Error("Gagal memuat pengaturan");
+  const data=await response.json();
+
+  document.getElementById("price").value=data.price||18000;
+  document.getElementById("theme").value=data.theme||"green";
+  document.getElementById("storeName").value=data.storeName||"Briell Store";
+  document.getElementById("storeStatus").value=data.storeStatus||"open";
+  document.getElementById("banner").value=data.banner||"";
+ }catch(error){
+  document.getElementById("saveStatus").textContent=error.message;
+ }
+}
+
+async function saveSettings(){
+ const data={
+  price:Number(document.getElementById("price").value),
+  theme:document.getElementById("theme").value,
+  storeName:document.getElementById("storeName").value,
+  storeStatus:document.getElementById("storeStatus").value,
+  banner:document.getElementById("banner").value
+ };
+
+ try{
+  const response=await fetch("/.netlify/functions/admin-settings",{
+   method:"POST",
+   headers:{
+    "Content-Type":"application/json",
+    "Authorization":"Bearer "+adminToken
+   },
+   body:JSON.stringify(data)
+  });
+  const result=await response.json();
+  if(!response.ok)throw Error(result.message||"Gagal menyimpan");
+  document.getElementById("saveStatus").textContent="Pengaturan berhasil disimpan.";
+ }catch(error){
+  document.getElementById("saveStatus").textContent=error.message;
+ }
+}
+
+function logout(){
+ adminToken="";
+ document.getElementById("dashboard").hidden=true;
+ document.getElementById("login").hidden=false;
+ document.getElementById("password").value="";
+}
+</script>
+</body>
+</html>
