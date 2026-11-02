@@ -1,98 +1,72 @@
-export default async function handler(request) {
+
+export const handler = async function(event) {
+  const name = (event.queryStringParameters?.username || "").trim();
+
   const headers = {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
-    "Cache-Control": "no-store"
+    "Cache-Control": "public, max-age=60"
   };
 
+  const reply = (statusCode, data) => ({
+    statusCode,
+    headers,
+    body: JSON.stringify(data)
+  });
+
+  if (!name) {
+    return reply(400, { error: "Username kosong." });
+  }
+
   try {
-    const url = new URL(request.url);
-    const username = (url.searchParams.get("username") || "").trim();
-
-    if (!username) {
-      return new Response(
-        JSON.stringify({
-          error: "Username wajib diisi."
-        }),
-        {
-          status: 400,
-          headers
-        }
-      );
-    }
-
-    // Cari akun Roblox berdasarkan username
     const userResponse = await fetch(
       "https://users.roblox.com/v1/usernames/users",
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          usernames: [username],
-          excludeBannedUsers: true
+          usernames: [name],
+          excludeBannedUsers: false
         })
       }
     );
 
     if (!userResponse.ok) {
-      throw new Error("Gagal menghubungi API Roblox.");
+      return reply(502, { error: "Gagal menghubungi Roblox." });
     }
 
     const userData = await userResponse.json();
     const user = userData.data?.[0];
 
-    // Jika username tidak ditemukan
     if (!user) {
-      return new Response(
-        JSON.stringify({
-          error: "Username Roblox tidak ditemukan."
-        }),
-        {
-          status: 404,
-          headers
-        }
-      );
+      return reply(404, { error: "Username Roblox tidak ditemukan." });
     }
 
-    // Ambil avatar Roblox
     const avatarResponse = await fetch(
-      "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" +
-      user.id +
-      "&size=150x150&format=Png&isCircular=false"
+      `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${user.id}&size=150x150&format=Png&isCircular=false`
     );
 
     if (!avatarResponse.ok) {
-      throw new Error("Gagal mengambil avatar Roblox.");
+      return reply(502, { error: "Gagal mengambil avatar Roblox." });
     }
 
     const avatarData = await avatarResponse.json();
-    const avatarUrl = avatarData.data?.[0]?.imageUrl || "";
+    const avatarUrl = avatarData.data?.[0]?.imageUrl;
 
-    // Kirim informasi akun ke website
-    return new Response(
-      JSON.stringify({
-        userId: user.id,
-        username: user.name,
-        displayName: user.displayName || user.name,
-        avatarUrl: avatarUrl
-      }),
-      {
-        status: 200,
-        headers
-      }
-    );
+    if (!avatarUrl) {
+      return reply(404, { error: "Avatar tidak tersedia." });
+    }
+
+    return reply(200, {
+      id: user.id,
+      username: user.name,
+      displayName: user.displayName,
+      avatarUrl: avatarUrl
+    });
 
   } catch (error) {
-    return new Response(
-      JSON.stringify({
-        error: error.message || "Terjadi kesalahan server."
-      }),
-      {
-        status: 500,
-        headers
-      }
-    );
+    return reply(500, {
+      error: "Terjadi kesalahan saat mencari akun Roblox."
+    });
   }
-}
+};
