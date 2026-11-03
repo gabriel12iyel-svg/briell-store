@@ -1,10 +1,12 @@
+
 import { getStore } from "@netlify/blobs";
 import { randomUUID } from "node:crypto";
 import { verifyAdmin } from "./_auth.mjs";
 
 const store = getStore("briell-orders");
+const settingsStore = getStore("briell-admin-settings");
 
-const PRICES = {
+const DEFAULT_PRICES = {
   "Via Username": 180,
   "Via Gamepass": 170
 };
@@ -44,10 +46,7 @@ export default async (req) => {
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
 
-      return Response.json(
-        { success: true, orders },
-        { headers }
-      );
+      return Response.json({ success: true, orders }, { headers });
     }
 
     if (req.method === "POST") {
@@ -57,13 +56,13 @@ export default async (req) => {
       const robux = Number(data.robux);
 
       if (
-        !Object.prototype.hasOwnProperty.call(PRICES, type) ||
+        !Object.prototype.hasOwnProperty.call(DEFAULT_PRICES, type) ||
         typeof data.username !== "string" ||
         data.username.trim().length < 3 ||
         data.username.trim().length > 50 ||
         !Number.isInteger(robux) ||
         robux < 1 ||
-        robux > 100000 ||
+        robux > 500 ||
         typeof data.email !== "string" ||
         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) ||
         typeof data.paymentMethod !== "string" ||
@@ -74,10 +73,35 @@ export default async (req) => {
         data.whatsapp.length > 25
       ) {
         return Response.json(
-          { message: "Data pesanan tidak valid" },
+          { message: "Data pesanan tidak valid. Maksimal 500 Robux." },
           { status: 400, headers }
         );
       }
+
+      if (
+        type === "Via Gamepass" &&
+        !/roblox\.com\/game-pass\/\d+/i.test(String(data.gamepass || ""))
+      ) {
+        return Response.json(
+          { message: "Link Gamepass tidak valid." },
+          { status: 400, headers }
+        );
+      }
+
+      const settings = await settingsStore.get("settings", {
+        type: "json"
+      });
+
+      const configuredPrice = Number(
+        type === "Via Username"
+          ? settings?.usernamePrice
+          : settings?.gamepassPrice
+      );
+
+      const pricePerRobux =
+        Number.isFinite(configuredPrice) && configuredPrice > 0
+          ? configuredPrice
+          : DEFAULT_PRICES[type];
 
       const id = randomUUID();
       const now = new Date().toISOString();
@@ -91,7 +115,7 @@ export default async (req) => {
         email: data.email.trim().slice(0, 100),
         whatsapp: data.whatsapp.trim(),
         robux,
-        amount: robux * PRICES[type],
+        amount: robux * pricePerRobux,
         paymentMethod: data.paymentMethod,
         gamepass: String(data.gamepass || "").slice(0, 500),
         status: "pending",
@@ -102,11 +126,7 @@ export default async (req) => {
       await store.setJSON(id, order);
 
       return Response.json(
-        {
-          success: true,
-          orderId: id,
-          order
-        },
+        { success: true, orderId: id, order },
         { status: 201, headers }
       );
     }
@@ -145,10 +165,7 @@ export default async (req) => {
 
       await store.setJSON(data.id, order);
 
-      return Response.json(
-        { success: true, order },
-        { headers }
-      );
+      return Response.json({ success: true, order }, { headers });
     }
 
     return Response.json(
