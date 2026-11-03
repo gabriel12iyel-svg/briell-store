@@ -61,8 +61,8 @@ export default async (req) => {
         data.username.trim().length < 3 ||
         data.username.trim().length > 50 ||
         !Number.isInteger(robux) ||
-        robux < 1 ||
-        robux > 500 ||
+        robux < 50 ||
+        robux > 5000 ||
         typeof data.email !== "string" ||
         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) ||
         typeof data.paymentMethod !== "string" ||
@@ -73,7 +73,7 @@ export default async (req) => {
         data.whatsapp.length > 25
       ) {
         return Response.json(
-          { message: "Data pesanan tidak valid. Maksimal 500 Robux." },
+          { message: "Data pesanan tidak valid. Maksimal 5000 Robux." },
           { status: 400, headers }
         );
       }
