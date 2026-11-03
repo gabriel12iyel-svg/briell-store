@@ -761,32 +761,19 @@ function escapeHtml(value){
 }
 
 /* PARTIKEL */
-function setupParticles(){
- const fx=document.getElementById('fx');
- for(let i=0;i<25;i++){
-  const particle=document.createElement('div');
-  particle.className='particle';
-  particle.textContent=['✦','✧','·','✳'][i%4];
-  particle.style.left=Math.random()*100+'%';
-  particle.style.animationDuration=(8+Math.random()*15)+'s';
-  particle.style.animationDelay=(-Math.random()*20)+'s';
-  particle.style.fontSize=(10+Math.random()*15)+'px';
-  particle.style.color=i%2?'#b7ff35':'#5affb1';
-  fx.appendChild(particle);
- }
-}
-
-/* INISIALISASI */
 function setup(){
  ['u','g'].forEach(prefix=>{
   renderAmounts(prefix);
   renderMethods(prefix);
   updatePrice(prefix);
  });
+
  setupParticles();
  renderOrders();
+ applyAdminSettings();
 }
 setup();
+
 </script>
 </body>
 </html>
